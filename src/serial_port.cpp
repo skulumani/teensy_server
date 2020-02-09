@@ -29,6 +29,12 @@ void SerialPort::init( void ) {
 
     // open the port
     this->open();
+
+    // set config
+    this->save_config();
+
+    this->get_config();
+
 }
 
 void SerialPort::open( void ) {
@@ -54,6 +60,8 @@ SerialPort::~SerialPort( void ) {
     if (this->is_open) {
         this->close();
     }
+
+    sp_free_config(this->config);
 }
 
 int SerialPort::check( enum sp_return result) {
@@ -102,4 +110,28 @@ int SerialPort::list_ports( void ) {
     sp_free_port_list(port_list);
     
     return 0;
+}
+
+void SerialPort::save_config( void ) {
+    this->check(sp_new_config(&(this->config)));
+    // save config variables
+    this->check(sp_set_config_baudrate(this->config, this->baud_rate));
+    this->check(sp_set_config_bits(this->config, this->bits));
+    this->check(sp_set_config_parity(this->config, this->parity));
+    this->check(sp_set_config_stopbits(this->config, this->stop_bits));
+    this->check(sp_set_config_flowcontrol(this->config, this->flowcontrol));
+}
+
+void SerialPort::set_config( void ) {
+    std::cout << "Applying configuration to port" << std::endl;
+    this->check(sp_set_config(this->port, this->config));
+}
+
+void SerialPort::get_config( void ) {
+   struct sp_port_config *initial_config;
+
+   std::cout << "Geting the config for: " << 
+   check(sp_get_config(this->port, initial_config));
+
+   // output the config of this serial port
 }
