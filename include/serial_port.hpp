@@ -14,14 +14,31 @@ class SerialPort {
 
         virtual ~SerialPort( void );
 
+        void list_ports();
+        
+        // read data
+        void read( void );
+        void open( void );
+        void close( void );
 
     private:
+        void init( void );
+        void check( enum sp_return result);
+
         bool is_open = false;
-        std::string port_name;
         unsigned int baud_rate;
 
-        void init( void );
-        void open( void );
+        // libserialport variables
+        const char *port_name = NULL;
+        struct sp_port *port;
+        sp_return error;
+
+        sp_mode mode = SP_MODE_READ;
+        sp_parity parity = SP_PARITY_NONE;
+
+
+
+
         
 }
 
