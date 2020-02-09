@@ -1,0 +1,3 @@
+[submodule "libraries/libserialport"]
+	path = libraries/libserialport
+	url = git@github.com:martinling/libserialport.git
