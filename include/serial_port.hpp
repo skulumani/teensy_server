@@ -16,10 +16,12 @@ class SerialPort {
 
         void list_ports();
         
-        // read data
+        // read data from connected port and store in a byte buffer in object
         void read( void );
         void open( void );
         void close( void );
+        void info( void );
+
 
     private:
         void init( void );

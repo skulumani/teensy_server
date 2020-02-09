@@ -16,3 +16,8 @@ make
 sudo make install
 ~~~
 
+## References
+
+* [Serial Guide](https://www.cmrr.umn.edu/~strupp/serial.html)
+* [libserial](https://sigrok.org/api/libserialport/unstable/index.html)
+*
