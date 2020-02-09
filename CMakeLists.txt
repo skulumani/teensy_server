@@ -39,5 +39,9 @@ include_directories(${LIBSERIALPORT_INCLUDE_DIRS})
 # BUILD TARGETS
 ################################################################################
 include_directories(${PROJECT_SOURCE_DIR}/include)
+
 add_executable(read_serial_example src/read_serial_example.cpp)
 target_link_libraries(read_serial_example PUBLIC serialport)
+
+add_executable(main src/main.cpp src/serial_port.cpp)
+target_link_libraries(main PUBLIC serialport)

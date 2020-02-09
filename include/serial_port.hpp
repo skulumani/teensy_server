@@ -1,8 +1,9 @@
 #ifndef SERIAL_PORT_HPP
 #define SERIAL_PORT_HPP
 
-#include <libserialport.h>
 #include <iostream>
+
+#include <libserialport.h>
 
 class SerialPort {
     
@@ -14,7 +15,7 @@ class SerialPort {
 
         virtual ~SerialPort( void );
 
-        void list_ports();
+        int list_ports( void );
         
         // read data from connected port and store in a byte buffer in object
         void read( void );
@@ -25,7 +26,7 @@ class SerialPort {
 
     private:
         void init( void );
-        void check( enum sp_return result);
+        int check( enum sp_return result);
 
         bool is_open = false;
         unsigned int baud_rate;
@@ -42,6 +43,6 @@ class SerialPort {
 
 
         
-}
+};
 
 #endif
