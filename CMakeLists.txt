@@ -25,9 +25,19 @@ return()
 endif()
 include(${EIGEN3_USE_FILE})
 
+# libserialport
+find_package (PkgConfig REQUIRED)
+
+# link_directories("/usr/local/lib/")
+# include_directories("/usr/local/include/")
+include_directories(${PROJECT_SOURCE_DIR}/include)
+
+pkg_check_modules(LIBSERIALPORT libserialport)
+link_directories(${LIBSERIALPORT_LIBRARY_DIRS})
+include_directories(${LIBSERIALPORT_INCLUDE_DIRS})
 ################################################################################
 # BUILD TARGETS
 ################################################################################
 include_directories(${PROJECT_SOURCE_DIR}/include)
 add_executable(main src/main.cpp)
-# target_link_libraries(main
+target_link_libraries(main PUBLIC serialport)
