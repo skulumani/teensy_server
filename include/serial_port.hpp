@@ -29,7 +29,7 @@ class SerialPort {
         int check( enum sp_return result);
 
         bool is_open = false;
-        unsigned int baud_rate;
+        unsigned int baud_rate = 9600;
 
         // libserialport variables
         const char *port_name = NULL;

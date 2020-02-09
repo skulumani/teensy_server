@@ -7,6 +7,35 @@ SerialPort::SerialPort( void ) {
 
 }
 
+SerialPort::SerialPort( std::string port_name_in ) {
+    this->port_name = port_name_in.c_str();
+    this->init();
+}
+
+SerialPort::SerialPort(std::string port_name_in, unsigned int baud_rate_in) {
+    this->port_name = port_name_in.c_str();
+    this->baud_rate = baud_rate_in;
+    
+    this->init();
+}
+
+void SerialPort::init( void ) {
+    // intialize the serial port using member variables
+    this->check(sp_get_port_by_name(this->port_name, &(this->port)));
+
+    // print basic info about the port
+    std::cout << "Port name: " << sp_get_port_name(this->port) << std::endl;
+    std::cout << "Description: " << sp_get_port_description(this->port) << std::endl;
+
+    // open the port
+    this->open();
+}
+
+void SerialPort::open( void ) {
+    std::cout << "Opening port" << std::endl;
+    this->check(sp_open(this->port, this->mode));
+}
+
 SerialPort::~SerialPort( void ) {
 
 }
