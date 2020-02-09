@@ -34,10 +34,26 @@ void SerialPort::init( void ) {
 void SerialPort::open( void ) {
     std::cout << "Opening port" << std::endl;
     this->check(sp_open(this->port, this->mode));
+
+    this->is_open = true;
+}
+
+void SerialPort::close( void ) {
+    int result = this->check(sp_close(this->port));
+    std::string name(this->port_name);
+    if (result != SP_OK) {
+        std::cerr << "Cannot close: " << name << std::endl;
+    } else {
+        std::cout << "Closed: " << name << std::endl;
+    }
+    sp_free_port(this->port);
+    this->is_open = false;
 }
 
 SerialPort::~SerialPort( void ) {
-
+    if (this->is_open) {
+        this->close();
+    }
 }
 
 int SerialPort::check( enum sp_return result) {
@@ -60,7 +76,7 @@ int SerialPort::check( enum sp_return result) {
             std::cout << "Error: Couldn't allocate memory." << std::endl;
             abort();
         case SP_OK:
-            std::cout << "OK" << std::endl;
+            /* std::cout << "OK" << std::endl; */
         default:
             return result;
     }
