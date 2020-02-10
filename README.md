@@ -1,5 +1,7 @@
+
 ## Dependencies
 
+Installing libserialport
 ~~~
 git submodule update --init
 cd libraries/libserialport
@@ -16,8 +18,26 @@ make
 sudo make install
 ~~~
 
+Installing protobuf
+
+~~~
+sudo apt-get install autoconf automake libtool curl make g++ unzip
+
+brew install autoconf automake libtool
+git submodule update --init --recursive
+cd libraries/protobuf
+./autogen.sh
+./configure
+make
+make check
+sudo make install
+sudo ldconfig
+~~~
+
+
+
 ## References
 
 * [Serial Guide](https://www.cmrr.umn.edu/~strupp/serial.html)
 * [libserial](https://sigrok.org/api/libserialport/unstable/index.html)
-*
+* [Cmake protobuf](https://github.com/shaochuan/cmake-protobuf-example)
