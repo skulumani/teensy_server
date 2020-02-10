@@ -31,14 +31,23 @@ find_package (PkgConfig REQUIRED)
 # link_directories("/usr/local/lib/")
 # include_directories("/usr/local/include/")
 include_directories(${PROJECT_SOURCE_DIR}/include)
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 pkg_check_modules(LIBSERIALPORT libserialport)
 link_directories(${LIBSERIALPORT_LIBRARY_DIRS})
 include_directories(${LIBSERIALPORT_INCLUDE_DIRS})
 
-include(FindProtobuf)
+# include(FindProtobuf)
 find_package(Protobuf REQUIRED)
-add_subdirectory(proto)
+# add_subdirectory(${PROJECT_SOURCE_DIR}/proto)
+include_directories(${Protobuf_INCLUDE_DIRS})
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
+protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS ${PROJECT_SOURCE_DIR}/proto/simple.proto)
+# protobuf_generate_python(PROTO_PY foo.proto)
+# add_library(protobuf ${PROTO_HDRS} ${PROTO_SRC})
+
+message(status, "Subdir Protobuf lib is ${PROTOBUF_LIBRARY}")
+message(status, "Subdir Protobuf libs is ${PROTOBUF_LIBRARIES}")
 ################################################################################
 # BUILD TARGETS
 ################################################################################
@@ -47,7 +56,6 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 add_executable(read_serial_example src/read_serial_example.cpp)
 target_link_libraries(read_serial_example PUBLIC serialport)
 
-add_executable(main src/main.cpp src/serial_port.cpp)
+add_executable(main src/main.cpp src/serial_port.cpp ${PROTO_SRCS} ${PROTO_HDRS})
 target_link_libraries(main PUBLIC serialport)
-
-# target_link_libraries(main PUBLIC protobuf ${PROTOBUF_LIBRARIES})
+target_link_libraries(main PUBLIC ${Protobuf_LIBRARIES})
