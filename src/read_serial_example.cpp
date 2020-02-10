@@ -39,7 +39,22 @@ int main() {
         error = sp_open(port, SP_MODE_READ);
         if (error == SP_OK) {
             sp_set_baudrate(port, 115200);
-            while(1) {
+
+            /* struct sp_port_config *initial_config; */
+            /* int result = sp_get_config(port, initial_config); */
+            /* std::cout << "result : " << result << std::endl; */
+
+            /* int baudrate, bits, stopbits; */
+            /* enum sp_parity parity; */
+            /* sp_get_config_baudrate(initial_config, &baudrate); */
+            /* sp_get_config_bits(initial_config, &bits); */
+            /* sp_get_config_stopbits(initial_config, &stopbits); */
+            /* sp_get_config_parity(initial_config, &parity); */
+
+            /* std::cout << "Baudrate: " << baudrate << ", data bits: " << bits << ", parity: " << parity << ", stopbits: " << stopbits << std::endl; */
+
+
+            while(true) {
                 usleep(500);
                 int bytes_waiting = sp_input_waiting(port);
                 if (bytes_waiting > 0) {
@@ -49,7 +64,10 @@ int main() {
                     byte_num = sp_nonblocking_read(port, byte_buffer, 128);
                     parse_serial(byte_buffer, byte_num);
                 }
+
             }
+            
+
             sp_close(port);
         } else {
             std::cout << "Error opening serial device" << std::endl;

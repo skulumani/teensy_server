@@ -2,6 +2,7 @@
 #define SERIAL_PORT_HPP
 
 #include <iostream>
+#include <unistd.h>
 
 #include <libserialport.h>
 
@@ -27,15 +28,18 @@ class SerialPort {
     private:
         void init( void );
         int check( enum sp_return result);
-        void save_config( void );
         void set_config( void );
-        void get_config( void );
+        
+        void parse_serial( int byte_num);
+
+        char byte_buffer[512]; // store serial data
 
         bool is_open = false;
 
         // libserialport variables
         const char *port_name = NULL;
         struct sp_port *port;
+        struct sp_event_set *event_set;
 
         sp_return error;
 
@@ -47,12 +51,6 @@ class SerialPort {
         sp_mode mode = SP_MODE_READ;
         sp_parity parity = SP_PARITY_NONE;
 
-        struct sp_port_config *config;
-
-
-
-
-        
 };
 
 #endif

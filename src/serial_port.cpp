@@ -31,9 +31,13 @@ void SerialPort::init( void ) {
     this->open();
 
     // set config
-    this->save_config();
+    this->set_config();
 
-    this->get_config();
+    /* this->get_config(); */
+    
+    // event waiting set
+    this->check(sp_new_event_set(&this->event_set));
+    this->check(sp_add_port_events(this->event_set, this->port, SP_EVENT_RX_READY));
 
 }
 
@@ -46,7 +50,7 @@ void SerialPort::open( void ) {
 
 void SerialPort::close( void ) {
     int result = this->check(sp_close(this->port));
-    std::string name(this->port_name);
+   std::string name(this->port_name);
     if (result != SP_OK) {
         std::cerr << "Cannot close: " << name << std::endl;
     } else {
@@ -57,11 +61,12 @@ void SerialPort::close( void ) {
 }
 
 SerialPort::~SerialPort( void ) {
+    sp_free_event_set(this->event_set);
     if (this->is_open) {
         this->close();
     }
 
-    sp_free_config(this->config);
+    /* sp_free_config(this->config); */
 }
 
 int SerialPort::check( enum sp_return result) {
@@ -112,26 +117,35 @@ int SerialPort::list_ports( void ) {
     return 0;
 }
 
-void SerialPort::save_config( void ) {
-    this->check(sp_new_config(&(this->config)));
-    // save config variables
-    this->check(sp_set_config_baudrate(this->config, this->baud_rate));
-    this->check(sp_set_config_bits(this->config, this->bits));
-    this->check(sp_set_config_parity(this->config, this->parity));
-    this->check(sp_set_config_stopbits(this->config, this->stop_bits));
-    this->check(sp_set_config_flowcontrol(this->config, this->flowcontrol));
-}
-
 void SerialPort::set_config( void ) {
     std::cout << "Applying configuration to port" << std::endl;
-    this->check(sp_set_config(this->port, this->config));
+    /* this->check(sp_set_config(this->port, this->config)); */
+
+    this->check(sp_set_baudrate(this->port, this->baud_rate));
+    this->check(sp_set_bits(this->port, this->bits));
+    this->check(sp_set_stopbits(this->port, this->stop_bits));
+    this->check(sp_set_flowcontrol(this->port, this->flowcontrol));
+    this->check(sp_set_parity(this->port, this->parity));
 }
 
-void SerialPort::get_config( void ) {
-   struct sp_port_config *initial_config;
+void SerialPort::read( void ) {
+    // read from serial port - and save to buffer in object
+    // wait for data
+    check(sp_wait(this->event_set, 10000));
 
-   std::cout << "Geting the config for: " << 
-   check(sp_get_config(this->port, initial_config));
+    int bytes_waiting = sp_input_waiting(this->port);
+    /* memset(&this->byte_buffer[0], 0, sizeof(this->byte_buffer)); */
+    int byte_num = 0;
 
-   // output the config of this serial port
+    if (bytes_waiting > 0) {
+        byte_num = sp_nonblocking_read(this->port, this->byte_buffer, sizeof(this->byte_buffer));
+        this->parse_serial(byte_num);
+    }
+}
+
+void SerialPort::parse_serial(int byte_num) {
+    for (int ii = 0; ii < byte_num; ii++) {
+        std::cout << this->byte_buffer[ii];
+    }
+    std::cout << std::endl;
 }
