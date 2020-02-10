@@ -36,6 +36,8 @@ pkg_check_modules(LIBSERIALPORT libserialport)
 link_directories(${LIBSERIALPORT_LIBRARY_DIRS})
 include_directories(${LIBSERIALPORT_INCLUDE_DIRS})
 
+include(FindProtobuf)
+find_package(Protobuf REQUIRED)
 add_subdirectory(proto)
 ################################################################################
 # BUILD TARGETS
@@ -48,4 +50,4 @@ target_link_libraries(read_serial_example PUBLIC serialport)
 add_executable(main src/main.cpp src/serial_port.cpp)
 target_link_libraries(main PUBLIC serialport)
 
-# target_link_libraries(main PUBLIC protobuf ${PROTOBUF_LIBRARY})
+# target_link_libraries(main PUBLIC protobuf ${PROTOBUF_LIBRARIES})
