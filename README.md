@@ -41,3 +41,4 @@ sudo ldconfig
 * [Serial Guide](https://www.cmrr.umn.edu/~strupp/serial.html)
 * [libserial](https://sigrok.org/api/libserialport/unstable/index.html)
 * [Cmake protobuf](https://github.com/shaochuan/cmake-protobuf-example)
+* [Better Cmaek protobuf](https://github.com/ttroy50/cmake-examples/tree/master/03-code-generation/protobuf)
