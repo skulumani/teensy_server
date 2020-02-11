@@ -40,14 +40,21 @@ include_directories(${LIBSERIALPORT_INCLUDE_DIRS})
 # include(FindProtobuf)
 find_package(Protobuf REQUIRED)
 # add_subdirectory(${PROJECT_SOURCE_DIR}/proto)
-include_directories(${Protobuf_INCLUDE_DIRS})
-include_directories(${CMAKE_CURRENT_BINARY_DIR})
-protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS ${PROJECT_SOURCE_DIR}/proto/simple.proto)
+# include_directories(${CMAKE_CURRENT_BINARY_DIR})
+
+# include_directories(${Protobuf_INCLUDE_DIRS})
+protobuf_generate_cpp(PROTO_SIMPLE_SRCS PROTO_SIMPLE_HDRS ${PROJECT_SOURCE_DIR}/proto/simple.proto)
+protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS ${PROJECT_SOURCE_DIR}/proto/ahrs.proto)
+
+message("PROTO_SRCS = ${PROTO_SRCS}")
+message("PROTO_HDRS = ${PROTO_HDRS}")
+
+# add_library(protobuf ${PROTO_HDRS} ${PROTO_SRC})
 # protobuf_generate_python(PROTO_PY foo.proto)
 # add_library(protobuf ${PROTO_HDRS} ${PROTO_SRC})
 
-message(status, "Subdir Protobuf lib is ${PROTOBUF_LIBRARY}")
-message(status, "Subdir Protobuf libs is ${PROTOBUF_LIBRARIES}")
+# message(status, "Subdir Protobuf lib is ${PROTOBUF_LIBRARY}")
+# message(status, "Subdir Protobuf libs is ${PROTOBUF_LIBRARIES}")
 ################################################################################
 # BUILD TARGETS
 ################################################################################
@@ -56,6 +63,16 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 add_executable(read_serial_example src/read_serial_example.cpp)
 target_link_libraries(read_serial_example PUBLIC serialport)
 
-add_executable(main src/main.cpp src/serial_port.cpp ${PROTO_SRCS} ${PROTO_HDRS})
+add_executable(main 
+    src/main.cpp
+    src/serial_port.cpp
+    ${PROTO_SRCS} 
+    ${PROTO_HDRS}
+    ${PROTO_SIMPLE_SRCS}
+    ${PROTO_SIMPLE_HDRS})
 target_link_libraries(main PUBLIC serialport)
 target_link_libraries(main PUBLIC ${Protobuf_LIBRARIES})
+target_include_directories(main
+    PUBLIC
+    ${PROTOBUF_INCLUDE_DIRS}
+    ${CMAKE_CURRENT_BINARY_DIR})

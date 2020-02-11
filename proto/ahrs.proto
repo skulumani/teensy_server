@@ -8,9 +8,19 @@ message SensorMeasurement {
 }
 
 
+/* message IMUMeasurement { */
+/*   SensorMeasurement accel = 1; */
+/*   SensorMeasurement gyro = 2; */
+/*   SensorMeasurement mag = 3; */
+/*   SensorMeasurement temp = 4; */
+/* } */
+
 message IMUMeasurement {
-  SensorMeasurement accel = 1;
-  SensorMeasurement gyro = 2;
-  SensorMeasurement mag = 3;
-  SensorMeasurement temp = 4;
+    repeated float accel_meas = 1;
+    repeated float accel_bias = 2;
+    repeated float gyro_meas  = 3;
+    repeated float gyro_bias  = 4;
+    repeated float mag_meas   = 5;
+    repeated float mag_bias   = 6;
+    float temp_meas  = 7;
 }
