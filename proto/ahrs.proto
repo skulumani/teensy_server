@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package AHRS;
+
+message SensorMeasurement {
+    repeated float meas = 1;
+    repeated float bias = 2;
+}
+
+
+message IMUMeasurement {
+  SensorMeasurement accel = 1;
+  SensorMeasurement gyro = 2;
+  SensorMeasurement mag = 3;
+  SensorMeasurement temp = 4;
+}
