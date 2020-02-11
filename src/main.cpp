@@ -7,13 +7,13 @@
 
 int main () {
     SimpleMessage m;
-    /* SerialPort serial("/dev/cu.usbmodem5105671", 115200); */
+    SerialPort serial("/dev/cu.usbmodem5105671", 115200);
 
-    /* serial.list_ports(); */
+    serial.list_ports();
 
-    /* while(true) { */
-    /*     serial.read(); */
-    /*     /1* usleep(1000); *1/ */
-    /* } */
+    while(true) {
+        serial.read();
+        /* usleep(1000); */
+    }
     return 0;
 }
