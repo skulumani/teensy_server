@@ -10,7 +10,8 @@ int main () {
     GOOGLE_PROTOBUF_VERIFY_VERSION;
 
     SimpleMessage m;
-    SerialPort serial("/dev/cu.usbmodem5105671", 115200);
+    /* SerialPort serial("/dev/cu.usbmodem5105671", 115200); */
+    SerialPort serial("/dev/ttyACM0", 115200);
 
     /* serial.list_ports(); */
     std::cout << "Waiting 2 seconds" << std::endl;
