@@ -24,7 +24,7 @@ class SerialPort {
         void close( void );
         void info( void );
 
-
+        char byte_buffer[128]; // store serial data
     private:
         void init( void );
         int check( enum sp_return result);
@@ -32,7 +32,6 @@ class SerialPort {
         
         void parse_serial( int byte_num);
 
-        char byte_buffer[512]; // store serial data
 
         bool is_open = false;
 

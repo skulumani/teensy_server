@@ -8,7 +8,9 @@
 
 int main () {
     GOOGLE_PROTOBUF_VERIFY_VERSION;
+    
 
+    uint8_t buffer[128];
     SimpleMessage m;
     SerialPort serial("/dev/cu.usbmodem5105671", 115200);
 
@@ -17,6 +19,8 @@ int main () {
     usleep(2000);
     while(true) {
         serial.read();
+        m.ParseFromArray(serial.byte_buffer, sizeof(serial.byte_buffer));
+        std::cout << m.lucky_number() << std::endl;
         /* usleep(1000); */
     }
     return 0;

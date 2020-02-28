@@ -139,7 +139,7 @@ void SerialPort::read( void ) {
 
     if (bytes_waiting > 0) {
         byte_num = sp_nonblocking_read(this->port, this->byte_buffer, sizeof(this->byte_buffer));
-        this->parse_serial(byte_num);
+        /* this->parse_serial(byte_num); */
     }
 }
 
