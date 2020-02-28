@@ -16,11 +16,17 @@ int main () {
     /* serial.list_ports(); */
     std::cout << "Waiting 2 seconds" << std::endl;
     usleep(2000);
+
+    unsigned long t1 = 0;
+    unsigned long t2 = 0;
+    unsigned long dt = 0;
+
     while(true) {
         serial.read();
         /* m.ParseFromArray(serial.byte_buffer, sizeof(serial.byte_buffer)); */
         /* std::cout << m.lucky_number() << std::endl; */
         imu_msg.ParseFromArray(serial.byte_buffer, sizeof(serial.byte_buffer));
+        t1 = imu_msg.time();
         std::cout << imu_msg.time() << " " << imu_msg.ax() << std::endl;
         /* usleep(1000); */
     }
