@@ -9,8 +9,6 @@
 int main () {
     GOOGLE_PROTOBUF_VERIFY_VERSION;
     
-
-    uint8_t buffer[128];
     SimpleMessage m;
     AHRS::IMUMeasurement imu_msg;
     SerialPort serial("/dev/cu.usbmodem5105671", 115200);
@@ -21,8 +19,9 @@ int main () {
     while(true) {
         serial.read();
         /* m.ParseFromArray(serial.byte_buffer, sizeof(serial.byte_buffer)); */
+        /* std::cout << m.lucky_number() << std::endl; */
         imu_msg.ParseFromArray(serial.byte_buffer, sizeof(serial.byte_buffer));
-        std::cout << imu_msg.gyro_meas(0) << std::endl;
+        std::cout << imu_msg.time() << " " << imu_msg.ax() << std::endl;
         /* usleep(1000); */
     }
     return 0;

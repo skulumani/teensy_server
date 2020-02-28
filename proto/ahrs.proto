@@ -3,8 +3,15 @@ syntax = "proto3";
 package AHRS;
 
 message SensorMeasurement {
-    repeated float meas = 1;
-    repeated float bias = 2;
+  float x = 1;
+  float y = 2;
+  float z = 3;
+}
+
+message SensorBias {
+    float x = 1;
+    float y = 2;
+    float z = 3;
 }
 
 
@@ -16,11 +23,19 @@ message SensorMeasurement {
 /* } */
 
 message IMUMeasurement {
-    repeated float accel_meas = 1;
-    repeated float accel_bias = 2;
-    repeated float gyro_meas  = 3;
-    repeated float gyro_bias  = 4;
-    repeated float mag_meas   = 5;
-    repeated float mag_bias   = 6;
-    float temp_meas  = 7;
+    float ax = 1;
+    float ay = 2;
+    float az = 3;
+
+    float gx = 4;
+    float gy = 5;
+    float gz = 6;
+
+    float mx = 7;
+    float my = 8;
+    float mz = 9;
+
+    float temp  = 10;
+    int32 time = 11; // Delta Time in microseconds from last measurement
+
 }
