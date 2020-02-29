@@ -43,6 +43,14 @@ sudo ldconfig
 
 Eigen - `sudo apt-get install libeigen3-dev`
 
+ModemMangaer - It breaks serial ports
+
+`sudo systemctl stop ModemManager.service` or `sudo systemctl disable ModemManager.service`
+
+~~~
+sudo cp tools/99-teensy.rules /etc/udev/rules.d
+~~~
+
 ## Vulkan
 
 * [Tutorial](https://vulkan-tutorial.com/)

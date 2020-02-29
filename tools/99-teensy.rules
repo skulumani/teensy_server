@@ -1,0 +1,2 @@
+# disable modemmanager for teensy 3.5
+ATTRS{idVendor}=="16c0",ENV{ID_MM_DEVICE_IGNORE}="1"
