@@ -6,6 +6,7 @@
 #include <stdexcept>
 #include <functional>
 #include <cstdlib>
+#include <vector>
 
 const int WIDTH = 800;
 const int HEIGHT = 600;
@@ -61,8 +62,21 @@ class HelloTriangleApplication {
             if (vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS) {
                 throw std::runtime_error("Failed to create instance!");
             }
+    
+            // checking for extension support in Vulkan
+            uint32_t extensionCount = 0;
+            vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
+            std::vector<VkExtensionProperties> extensions(extensionCount);
+            vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, extensions.data());
+
+            std::cout << "Available extensions:" << std::endl;
+            for (const auto& extension : extensions) {
+                std::cout << "\t" << extension.extensionName << std::endl;
+            }
 
         }
+
+
         void mainLoop() {
             while (!glfwWindowShouldClose(window)) {
                 glfwPollEvents();
@@ -70,6 +84,8 @@ class HelloTriangleApplication {
         }
 
         void cleanup() {
+            vkDestroyInstance(instance, nullptr);
+
             glfwDestroyWindow(window);
 
             glfwTerminate();
