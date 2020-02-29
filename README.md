@@ -1,5 +1,12 @@
+## TOOD
+
+* [ ] GUI display of sensor parameters
+* [ ] FSM to handle calibration, normal modes
+* [ ] HDF5 to store archive data
 
 ## Dependencies
+
+Cmake - `sudo apt-get install cmake`
 
 Installing libserialport
 ~~~
@@ -34,7 +41,13 @@ sudo make install
 sudo ldconfig
 ~~~
 
+Eigen - `sudo apt-get install libeigen3-dev`
 
+## Vulkan
+
+* [Tutorial](https://vulkan-tutorial.com/)
+* [GLFW Tutorial](https://www.glfw.org/docs/latest/quick.html)
+* [Imgui](https://blog.conan.io/2019/06/26/An-introduction-to-the-Dear-ImGui-library.html)
 
 ## References
 
