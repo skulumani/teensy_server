@@ -7,6 +7,9 @@
 #include <functional>
 #include <cstdlib>
 
+const int WIDTH = 800;
+const int HEIGHT = 600;
+
 class HelloTriangleApplication {
     public:
         void run() {
@@ -17,8 +20,14 @@ class HelloTriangleApplication {
         }
 
     private:
-        void initWindow() {
+        GLFWwindow* window;
 
+        void initWindow() {
+            glfwInit();
+            glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+            glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+
+            window = glfwCreateWindow(WIDTH, HEIGHT, "Vulkan", nullptr, nullptr);
         }
 
         void initVulkan() {
@@ -26,11 +35,15 @@ class HelloTriangleApplication {
         }
 
         void mainLoop() {
-
+            while (!glfwWindowShouldClose(window)) {
+                glfwPollEvents();
+            }
         }
 
         void cleanup() {
+            glfwDestroyWindow(window);
 
+            glfwTerminate();
         }
 
 };
