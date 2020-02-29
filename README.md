@@ -51,8 +51,31 @@ ModemMangaer - It breaks serial ports
 sudo cp tools/99-teensy.rules /etc/udev/rules.d
 ~~~
 
-## Vulkan
+## GUI
 
+* Vulkan
+* GLFW - `sudo apt-get install libglfw3-dev`
+* GLM - `sudo apt-get install libglm-dev`
+* IMGUI
+
+~~~
+sudo apt install libxcb1-dev xorg-dev
+wget https://vulkan.lunarg.com/sdk/home#sdk/downloadConfirm/1.2.131.2/linux/vulkansdk-linux-x86_64-1.2.131.2.tar.gz
+tar -xzf vulkansdk*
+source setup_env.sh
+mkdir build && cd build
+cmake ..
+make
+./samples/Hologram/Hologram
+~~~
+
+Repo
+~~~
+wget -qO - http://packages.lunarg.com/lunarg-signing-key-pub.asc | sudo apt-key add -
+sudo wget -qO /etc/apt/sources.list.d/lunarg-vulkan-1.2.131-bionic.list http://packages.lunarg.com/vulkan/1.2.131/lunarg-vulkan-1.2.131-bionic.list
+sudo apt update
+sudo apt install vulkan-sdk
+~~~
 * [Tutorial](https://vulkan-tutorial.com/)
 * [GLFW Tutorial](https://www.glfw.org/docs/latest/quick.html)
 * [Imgui](https://blog.conan.io/2019/06/26/An-introduction-to-the-Dear-ImGui-library.html)

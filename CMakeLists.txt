@@ -55,6 +55,12 @@ message("PROTO_HDRS = ${PROTO_HDRS}")
 
 # message(status, "Subdir Protobuf lib is ${PROTOBUF_LIBRARY}")
 # message(status, "Subdir Protobuf libs is ${PROTOBUF_LIBRARIES}")
+
+# GLFW
+find_package(glfw3 3.3 REQUIRED)
+
+# Vulkan
+find_package(Vulkan REQUIRED)
 ################################################################################
 # BUILD TARGETS
 ################################################################################
@@ -76,3 +82,10 @@ target_include_directories(main
     PUBLIC
     ${PROTOBUF_INCLUDE_DIRS}
     ${CMAKE_CURRENT_BINARY_DIR})
+
+
+add_executable(vulkan_example src/vulkan_example.cpp)
+target_link_libraries(vulkan_example glfw)
+target_link_libraries(vulkan_example Vulkan::Vulkan)
+target_include_directories(vulkan_example PRIVATE Vulkan::Vulkan)
+
