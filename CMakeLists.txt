@@ -89,3 +89,8 @@ target_link_libraries(vulkan_example glfw)
 target_link_libraries(vulkan_example Vulkan::Vulkan)
 target_include_directories(vulkan_example PRIVATE Vulkan::Vulkan)
 
+add_executable(hello_triangle src/hello_triangle.cpp)
+target_link_libraries(hello_triangle glfw)
+target_link_libraries(hello_triangle Vulkan::Vulkan)
+target_include_directories(hello_triangle PRIVATE Vulkan::Vulkan)
+
