@@ -29,7 +29,7 @@ void  parse_serial(char *byte_buffer, int byte_num) {
 int main() {
     list_ports();
     /* const char* desired_port = "/dev/cu.Bluetooth-Incoming-Port"; */
-    const char* desired_port = "/dev/cu.usbmodem5105671";
+    const char* desired_port = "/dev/ttyACM0";
 
     std::cout << "Opening port: " << desired_port << std::endl;
 

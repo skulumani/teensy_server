@@ -12,7 +12,7 @@ int main () {
     
     SimpleMessage m;
     AHRS::IMUMeasurement imu_msg;
-    SerialPort serial("/dev/cu.usbmodem5105671", 115200);
+    SerialPort serial("/dev/ttyACM0", 115200);
 
     /* serial.list_ports(); */
     std::cout << "Waiting 2 seconds" << std::endl;
