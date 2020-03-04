@@ -53,10 +53,11 @@ sudo cp tools/99-teensy.rules /etc/udev/rules.d
 
 ## GUI
 
-* Vulkan
-* GLFW - `sudo apt-get install libglfw3-dev`
+* Vulkan - doesn't exist on my old mac :(
+* GLFW - `sudo apt-get install libglfw3-dev` 
 * GLM - `sudo apt-get install libglm-dev`
 * IMGUI
+* HDF5 
 
 ~~~
 sudo apt install libxcb1-dev xorg-dev

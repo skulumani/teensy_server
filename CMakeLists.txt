@@ -61,6 +61,9 @@ find_package(glfw3 3.3 REQUIRED)
 
 # Vulkan
 find_package(Vulkan REQUIRED)
+
+# FDCL-HDF5 for storing data
+find_package(FDCL_HDF5 REQUIRED)
 ################################################################################
 # BUILD TARGETS
 ################################################################################
@@ -82,6 +85,7 @@ target_include_directories(main
     PUBLIC
     ${PROTOBUF_INCLUDE_DIRS}
     ${CMAKE_CURRENT_BINARY_DIR})
+target_link_libraries(main fdcl_hdf5)
 
 
 add_executable(vulkan_example src/vulkan_example.cpp)
