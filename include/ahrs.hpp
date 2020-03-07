@@ -2,7 +2,7 @@
 #define AHRS_HPP
 #include <Eigen/Dense>
 
-namespace ELLIPSOID {
+namespace Ellipsoid {
 class EllipsoidParameters {
     public:
         Eigen::Vector3d center;
