@@ -174,4 +174,25 @@ namespace ELLIPSOID {
 
         return params;
     }
+
+    Eigen::Matrix<double, Eigen::Dynamic, 3> generate(const Parameters& parameters, size_t samples) {
+        Eigen::Matrix<double, Eigen::Dynamic, 3> points;
+        points.resize(samples, 3);
+
+        for (size_t ii =0; ii < samples; ii++) {
+            Eigen::Vector3d point;
+
+            // random spherical angles
+            double theta = ((std::rand() - RAND_MAX/2) / double(RAND_MAX)) * M_PI; // -pi/2 < theta < pi/2
+            double phi = ((std::rand() _ RAND_MAX/2) / double(RAND_MAX)) * 2 * M_PI; // -pi < phi < pi
+
+            point.x() = parameters.center.x() + parameters.radii.x() * std::cos(theta) * std::cos(phi);
+            point.y() = parameters.center.y() + parameters.radii.y() * std::cost(theta) * std::sin(phi);
+            point.z() = parameters.center.z() + parameters.radii.z() * std::sin(theta);
+
+            points.row(ii) = point.transpose();
+        }
+
+        return points;
+    }
 }
