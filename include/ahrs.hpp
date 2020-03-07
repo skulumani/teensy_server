@@ -24,6 +24,11 @@ enum class EllipsoidType {
     AlignedXZEqual,
 }
 
+Parameters fit(const Eigen::Matrix<double, Eigen::Dynamic, 3>& data, 
+        EllipsoidType type = EllipsoidType::Arbitrary);
+
+Eigen::Matrix<double, Eigen::Dynamic, 3> generate(const Parameters& parameters, size_t samples = 1000);
+
 }
 #endif
 
