@@ -15,7 +15,7 @@ message SensorBias {
 }
 
 message IMUMeasurement {
-    int32 time = 1; // Delta Time in microseconds from last measurement
+    float time = 1; // System time in seconds (will roll over in about 70 min)
 
     SensorMeasurement accel = 2;
     SensorMeasurement gyro = 3;
