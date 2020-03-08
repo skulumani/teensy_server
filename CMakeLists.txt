@@ -57,13 +57,28 @@ message("PROTO_HDRS = ${PROTO_HDRS}")
 # message(status, "Subdir Protobuf libs is ${PROTOBUF_LIBRARIES}")
 
 # GLFW
-find_package(glfw3 3.3 REQUIRED)
+find_package(glfw3 3.3 QUIET)
+if(NOT glfw3_FOUND)
+    message(STATUS "GLFW3 not found")
+else()
+    message(STATUS "GLFW3 found. ")
+endif()
 
 # Vulkan
-find_package(Vulkan REQUIRED)
+find_package(Vulkan QUIET)
+if(NOT Vulkan_FOUND)
+    message(STATUS "Vulkan not found")
+else()
+    message(STATUS "Vulkan found. ")
+endif()
 
 # FDCL-HDF5 for storing data
 find_package(FDCL_HDF5 REQUIRED)
+if(NOT FDCL_HDF5_FOUND)
+    message(STATUS "FDCL HDF5 not found")
+else()
+    message(STATUS "FDCL HDF5 found. ")
+endif()
 
 find_package(HDF5 REQUIRED COMPONENTS CXX)
 if (NOT HDF5_FOUND)
@@ -104,14 +119,14 @@ target_include_directories(main
     ${CMAKE_CURRENT_BINARY_DIR})
 target_link_libraries(main PUBLIC fdcl_hdf5)
 
+if (Vulkan_FOUND AND glfw3_FOUND)
+    add_executable(vulkan_example src/vulkan_example.cpp)
+    target_link_libraries(vulkan_example glfw)
+    target_link_libraries(vulkan_example Vulkan::Vulkan)
+    target_include_directories(vulkan_example PRIVATE Vulkan::Vulkan)
 
-add_executable(vulkan_example src/vulkan_example.cpp)
-target_link_libraries(vulkan_example glfw)
-target_link_libraries(vulkan_example Vulkan::Vulkan)
-target_include_directories(vulkan_example PRIVATE Vulkan::Vulkan)
-
-add_executable(hello_triangle src/hello_triangle.cpp)
-target_link_libraries(hello_triangle glfw)
-target_link_libraries(hello_triangle Vulkan::Vulkan)
-target_include_directories(hello_triangle PRIVATE Vulkan::Vulkan)
-
+    add_executable(hello_triangle src/hello_triangle.cpp)
+    target_link_libraries(hello_triangle glfw)
+    target_link_libraries(hello_triangle Vulkan::Vulkan)
+    target_include_directories(hello_triangle PRIVATE Vulkan::Vulkan)
+endif()
