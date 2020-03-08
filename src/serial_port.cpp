@@ -21,36 +21,42 @@ SerialPort::SerialPort(std::string port_name_in, unsigned int baud_rate_in) {
 
 void SerialPort::init( void ) {
     // intialize the serial port using member variables
-    this->check(sp_get_port_by_name(this->port_name, &(this->port)));
+    std::cout << "Construct" << std::endl;
+    sp_return result = this->check(sp_get_port_by_name(this->port_name, &(this->port)));
 
-    // print basic info about the port
-    std::cout << "Port name: " << sp_get_port_name(this->port) << std::endl;
-    std::cout << "Description: " << sp_get_port_description(this->port) << std::endl;
+    if (result != SP_OK) {
+        std::cerr << "Cannot open port: Check the name" << std::endl; 
+    } else {
+        // print basic info about the port
+        std::cout << "Port name: " << sp_get_port_name(this->port) << std::endl;
+        std::cout << "Description: " << sp_get_port_description(this->port) << std::endl;
 
-    // open the port
-    this->open();
+        // open the port
+        this->open();
 
-    // set config
-    this->set_config();
+        // set config
+        this->set_config();
 
-    /* this->get_config(); */
-    
-    // event waiting set
-    this->check(sp_new_event_set(&this->event_set));
-    this->check(sp_add_port_events(this->event_set, this->port, SP_EVENT_RX_READY));
+        /* this->get_config(); */
+
+        // event waiting set
+        result = this->check(sp_new_event_set(&this->event_set));
+        result = this->check(sp_add_port_events(this->event_set, this->port, SP_EVENT_RX_READY));
+    }
 
 }
 
 void SerialPort::open( void ) {
     std::cout << "Opening port" << std::endl;
-    this->check(sp_open(this->port, this->mode));
-
-    this->is_open = true;
+    sp_return result = this->check(sp_open(this->port, this->mode));
+    if (result == SP_OK){
+        this->is_open = true;
+    }
 }
 
 void SerialPort::close( void ) {
-    int result = this->check(sp_close(this->port));
-   std::string name(this->port_name);
+    sp_return result = this->check(sp_close(this->port));
+    std::string name(this->port_name);
     if (result != SP_OK) {
         std::cerr << "Cannot close: " << name << std::endl;
     } else {
@@ -69,7 +75,7 @@ SerialPort::~SerialPort( void ) {
     /* sp_free_config(this->config); */
 }
 
-int SerialPort::check( enum sp_return result) {
+sp_return SerialPort::check( enum sp_return result) {
     /* For this example we'll just exit on any error by calling abort(). */
     char *error_message;
 
@@ -90,7 +96,9 @@ int SerialPort::check( enum sp_return result) {
             abort();
         case SP_OK:
             /* std::cout << "OK" << std::endl; */
-        default:
+            return result;
+        default: 
+            std::cout << "Unknown serialport error message" << std::endl;
             return result;
     }
 }

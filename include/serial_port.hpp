@@ -25,15 +25,15 @@ class SerialPort {
         void info( void );
 
         char byte_buffer[128]; // store serial data
+
+        bool is_open = false;
     private:
         void init( void );
-        int check( enum sp_return result);
+        sp_return check( enum sp_return result);
         void set_config( void );
         
         void parse_serial( int byte_num);
 
-
-        bool is_open = false;
 
         // libserialport variables
         const char *port_name = NULL;

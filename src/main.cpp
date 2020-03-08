@@ -21,7 +21,10 @@ int main () {
     SimpleMessage m;
     AHRS::IMUMeasurement imu_msg;
     SerialPort serial("/dev/ttyACM0", 115200);
-
+    if (serial.is_open != true) {
+        std::cerr << "error with serial port" << std::endl;
+        return 1;
+    }
     /* serial.list_ports(); */
     std::cout << "Waiting 2 seconds" << std::endl;
     usleep(2000);
