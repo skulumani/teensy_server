@@ -7,6 +7,7 @@
 #include <functional>
 #include <cstdlib>
 #include <vector>
+#include <cstring> 
 
 const int WIDTH = 800;
 const int HEIGHT = 600;

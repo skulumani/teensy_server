@@ -64,6 +64,23 @@ find_package(Vulkan REQUIRED)
 
 # FDCL-HDF5 for storing data
 find_package(FDCL_HDF5 REQUIRED)
+
+find_package(HDF5 REQUIRED COMPONENTS CXX)
+if (NOT HDF5_FOUND)
+    message(STATUS "This project requires HDF5 and will not compile")
+    return()
+else()
+    message(STATUS "Found HDF5: ${HDF5_VERSION}")
+endif()
+
+if ( HDF5_IS_PARALLEL )
+    message(STATUS "HDF5 parallel is installed")
+else()
+    message(STATUS "HDF5 parallel is NOT installed")
+endif()
+# message(STATUS "HDF5 Lib: ${HDF5_LIBRARIES}")
+include_directories(${HDF5_INCLUDE_DIRS})
+set(hdf5_libs hdf5 hdf5_cpp)
 ################################################################################
 # BUILD TARGETS
 ################################################################################
@@ -85,7 +102,7 @@ target_include_directories(main
     PUBLIC
     ${PROTOBUF_INCLUDE_DIRS}
     ${CMAKE_CURRENT_BINARY_DIR})
-target_link_libraries(main fdcl_hdf5)
+target_link_libraries(main PUBLIC fdcl_hdf5)
 
 
 add_executable(vulkan_example src/vulkan_example.cpp)

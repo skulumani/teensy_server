@@ -12,8 +12,8 @@ int main () {
     GOOGLE_PROTOBUF_VERIFY_VERSION;
 
     // create a HDF5 to store the sensor data
-    HDF5::File hf = HDF5::File("imu_data.hdf5", HDF5::Truncate);
-    Eigen::Matrix<float, Dynamic, 11> imu_data;
+    HDF5::File hf = HDF5::File("imu_data.hdf5", HDF5::File::Truncate );
+    Eigen::Matrix<float, Eigen::Dynamic, 11> imu_data;
     Eigen::Matrix<float, 1, 11> imu_row;
     
     size_t num_meas = 0;
@@ -45,14 +45,14 @@ int main () {
             << " " << imu_msg.temp() << std::flush;
 
         // store the imu data into the array
-        num_meas += 1;
         imu_row << imu_msg.time(), 
                 imu_msg.accel().x(), imu_msg.accel().y(), imu_msg.accel().z(),
                 imu_msg.gyro().x(), imu_msg.gyro().y(), imu_msg.gyro().z(),
                 imu_msg.mag().x(), imu_msg.mag().y(), imu_msg.mag().z(),
                 imu_msg.temp();
-        /* imu_data.conservativeResize(num_meas, 11); */
-        imu_data.set((Eigen::MatrixXf(num_meas, 11) << imu_data, imu_row).finished());
+        imu_data.conservativeResize(num_meas+1, 11);
+        imu_data.row(num_meas) << imu_row;
+        num_meas += 1;
 
     }
     
