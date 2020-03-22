@@ -74,40 +74,20 @@ int main () {
     
     // stationary data for gyro calibration
     std::cout << "Keep IMU stationary for 60 seconds" << std::endl;
-
     std::cout << "Waiting 2 seconds" << std::endl;
     usleep(2000);
-
-    while(elapsed_seconds.count() < 60.0) {
-        serial.read();
-        
-        imu_msg.ParseFromArray(serial.byte_buffer, sizeof(serial.byte_buffer));
-        std::cout << "\33[2K\r" << "T: " << imu_msg.time() << " " 
-            << imu_msg.accel().x() << " " << imu_msg.accel().y() << " " << imu_msg.accel().z() 
-            << " " << imu_msg.gyro().x() << " " << imu_msg.gyro().y() << " " << imu_msg.gyro().z() 
-            << " " << imu_msg.mag().x() << " " << imu_msg.mag().y() << " " << imu_msg.mag().z() 
-            << " " << imu_msg.temp() << std::flush;
-
-        // store the imu data into the array
-        imu_row << imu_msg.time(), 
-                imu_msg.accel().x(), imu_msg.accel().y(), imu_msg.accel().z(),
-                imu_msg.gyro().x(), imu_msg.gyro().y(), imu_msg.gyro().z(),
-                imu_msg.mag().x(), imu_msg.mag().y(), imu_msg.mag().z(),
-                imu_msg.temp();
-        imu_data.conservativeResize(num_meas+1, 11);
-        imu_data.row(num_meas) << imu_row;
-        num_meas += 1;
-        
-        elapsed_seconds = std::chrono::system_clock::now() - start_time;
-        
-    }
-    
+    int read_data(serial, hf, 60.0, "gyro_data");
     std::cout << std::endl << std::endl;
     std::cout << "Finished with stationary period" << std::endl;
-
-    // save to HDF5 file
-    hf.write("gyro_data", imu_data);
     
+    // magnetometer
+    std::cout << "Move IMU in figure 8 pattern for 60 sec" << std::endl;
+    std::cout << "Waiting 2 seconds" << std::endl;
+    usleep(2000);
+    int read_data(serial, hf, 60.0, "mag_data");
+    std::cout << std::endl << std::endl;
+    std::cout << "Finished with mag period" << std::endl;
+
     google::protobuf::ShutdownProtobufLibrary();
     return 0;
 }
